@@ -1,0 +1,56 @@
+openapi: 3.0.0
+info:
+  title: New API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/
+paths:
+  /:
+    post:
+      summary: post /root
+      responses:
+        '200':
+          description: make a new post
+          content:
+            text/html:
+              schema:
+                type: string
+                example: <p>hi</p>
+    get:
+      summary: get /root
+      responses:
+        '200':
+          description: get all posts
+  /{slug}:
+    post:
+      summary: post /root/{slug}
+      parameters:
+        - in: path
+          name: slug
+          schema:
+            type: string
+          examples:
+            first:
+              value: my-first-post
+            second:
+              value: my-second-post
+            invalid:
+              value: no spaces
+          required: true
+          description: Numeric ID of the user to get
+      responses:
+        '200':
+          description: edit a post
+    get:
+      summary: get /root/{slug}
+      parameters:
+        - in: path
+          name: slug
+          schema:
+            type: string
+            example: my-cool-post
+          required: true
+          description: Numeric ID of the user to get
+      responses:
+        '200':
+          description: get a post
