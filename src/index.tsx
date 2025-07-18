@@ -1,36 +1,35 @@
-import { Hono } from 'hono'
-import { sql } from "bun";
+import { Hono } from "hono";
 
-const app = new Hono()
+const app = new Hono();
 
-app.get('/', async (c) => {
-  const userId = 1;
-  const feeds = await sql`SELECT * from feeds WHERE user_id = ${userId};`.values();
-  console.log(feeds)
+app.get("/", async (c) => {
+    return c.html(
+        <body>
+            <header style="display: flex; gap: 1em; background-color: pink">
+                <a href="/">search</a>
+                <a href="blogs">blogglio</a>
+                <a href="blogs">messages</a>
+                <a href="blogs">goggletwitter</a>
+                <a href="lobby">lobby</a>
+                <a href="mail/">mail</a>
+                <a href="blogs">videos</a>
+                <a href="blogs">ai</a>
+                <a href="blogs">shop</a>
+            </header>
+            <main>
+                <h1>goggl.io</h1>
+                <form>
+                    <input type="text" placeholder="search"></input>
+                    <input type="submit"></input>
+                </form>
+            </main>
+        </body>
+    );
+});
 
-  return c.html(
-    <body>
-      <header>
-        <a href="create" class="bg-blue">add feed</a>
-        <audio href=
-      </header>
-      <main>
-        <h1 class="text">welcome to my blog</h1>
-        <h1 class="text-3xl font-bold underline">
-          Hello world!
-        </h1>
-        <ul>
-          {feeds.map(([id, title, slug, user_id]: [number, boolean, string, string, Date, string, string]) =>
-            <a href={slug}>
-              <li>
-                <h3>{title}</h3>
-              </li>
-            </a>
-          )}
-        </ul>
-      </main>
-    </body>
-    )
-})
+import mail from "./mail/index";
+app.route("/mail/", mail);
 
-export default app
+import search from "./search";
+app.route("/", search);
+export default app;
