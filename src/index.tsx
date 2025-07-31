@@ -18,7 +18,7 @@ app.get("/", async (c) => {
             </header>
             <main>
                 <h1>goggl.io</h1>
-                <form>
+                <form action="search">
                     <input type="text" placeholder="search"></input>
                     <input type="submit"></input>
                 </form>
