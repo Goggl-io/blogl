@@ -1,0 +1,18 @@
+volumes:
+  postgres:
+
+services:
+  db:
+    image: postgres
+    ports: 
+    - 5432:5432
+    volumes:
+    - postgres:/var/lib/postgresql
+    environment:
+    - PGUSER=postgres # try $ docker compose exec db psql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
