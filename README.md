@@ -1,1 +1,3 @@
-hey gang
+```
+bun run src/index.js
+```
