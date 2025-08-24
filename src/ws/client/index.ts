@@ -4,10 +4,16 @@ if (!username) {
   process.exit(1);
 }
 
-const socket = new WebSocket("ws://localhost:8080");
+console.log('connecting...')
+
+const socket = new WebSocket("ws://localhost:8080", {
+    headers: {
+        cookie: new Bun.CookieMap({ user: 'griffin' }).toString().
+    },
+});
 
 socket.addEventListener("open", () => {
-    console.log('connected')
+    console.log('connected.')
 });
 
 socket.addEventListener("message", (event) => {
@@ -19,10 +25,7 @@ async function read() {
     process.stdout.write("> ");
 
     for await (const line of console) {
-        const message = line.trim();
-        if (message) {
-            socket.send(message);
-        }
+        socket.send(line);
         process.stdout.write("> ");
     }
 }
