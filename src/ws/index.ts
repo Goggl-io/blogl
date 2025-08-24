@@ -1,7 +1,21 @@
-const server = Bun.serve({
+type WebSocketData = {
+  user_id: number;
+}
+
+const server = Bun.serve<WebSocketData>({
   port: 8080,
   fetch(req, server) {
-    if (server.upgrade(req)) {
+    const cookies = new Bun.CookieMap(req.headers.get("cookie")!);
+    const user_id = cookies.get("user")
+    if (!user_id) {
+      return new Response("unauthorized user", { status: 401 });
+    }
+
+    if (server.upgrade(req, {
+      data: {
+        user_id
+      }
+    })) {
       return;
     }
 
@@ -9,8 +23,9 @@ const server = Bun.serve({
   },
   websocket: {
     message(ws, message) {
-      console.log(message)
-      ws.publish("lobby", message)
+      const user = ws.data.user_id
+      console.log(user, message)
+      ws.publish("lobby", `${user}: ${message}`)
     },
     open(ws) {
       console.log('new connection')
