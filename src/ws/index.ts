@@ -10,10 +10,10 @@ const server = Bun.serve({
   websocket: {
     message(ws, message) {
       console.log(message)
-      server.publish("lobby", message)
+      ws.publish("lobby", message)
     },
     open(ws) {
-      console.log('connect')
+      console.log('new connection')
       ws.subscribe("lobby")
       server.publish("lobby", "someone has joined")
     },

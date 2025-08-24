@@ -1,3 +1,3 @@
 ```
-bun run src/index.js
+bun run src/index.ts
 ```
