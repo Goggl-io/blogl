@@ -28,4 +28,7 @@ app.get("/create", async (c) => {
     )
 })
 
+import users from "./users/"
+app.route("/users/", users)
+
 export default app;
