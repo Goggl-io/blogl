@@ -2,13 +2,13 @@ import { Hono } from "hono";
 
 const app = new Hono();
 
-app.get("/search", async (c) => {
+app.get("/", async (c) => {
     const query = c.req.query("q");
     return c.html(
     <body>
-        <a href=".">back to search</a>
+        <a href="..">back</a>
         <h1>search results for {query}</h1>
-        <a href="https://google.com">click here lol</a>
+        <a href={`https://google.com?q=${query}`}>click here lol</a>
     </body>);
 });
 

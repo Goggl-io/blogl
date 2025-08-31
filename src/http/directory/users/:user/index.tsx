@@ -7,7 +7,7 @@ app.get("/", async (c) => {
     return c.html(
         <body>
             <h1>griffin's profile</h1>
-            <a href="..">back</a>
+            <a href="../..">back</a>
             <ul>
             </ul>
         </body>
