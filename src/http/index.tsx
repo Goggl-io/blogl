@@ -1,42 +1,24 @@
 import { Hono } from "hono";
+import {
+    getCookie
+} from "hono/cookie";
 
 const app = new Hono();
 
 app.get("/", async (c) => {
-    const user = "false";
-    //const user = undefined;
+    const user = getCookie(c, 'user');
 
     return c.html(
         <body>
             <header style="display: flex; gap: 1em; background-color: pink">
                 <a href="/">search</a>
-                <a href="blogs">blogglio</a>
-                <a href="blogs">messages</a>
-                <a href="blogs">goggletwitter</a>
-                <a href="lobby">lobby</a>
-                <a href="mail/">mail</a>
-                <a href="blogs">videos</a>
-                <a href="blogs">ai</a>
-                <a href="blogs">shop</a>
+                <span>-</span>
+                {user ? <span><span> hi {user}</span><a href="signout/">sign out</a><a href="profile/">profile</a></span> : <a href="login/">log in</a>}
             </header>
             <main>
                 <h1>goggl.io</h1>
-                {user ? <h2>welcome {user}</h2> : <h2></h2>}
                 <form action="search">
                     <input type="text" placeholder="search"></input>
-                    <input type="submit"></input>
-                </form>
-                <form action="login" method="post">
-                    <input
-                        type="text"
-                        placeholder="username"
-                        name="username"
-                    ></input>
-                    <input
-                        type="password"
-                        placeholder="password"
-                        name="password"
-                    ></input>
                     <input type="submit"></input>
                 </form>
             </main>
@@ -44,32 +26,13 @@ app.get("/", async (c) => {
     );
 });
 
-const users = new Map();
-users.set("griffin", { password: "20tuck09" });
-users.set("dsfs", { password: "asdf" });
+import signout from './signout'
+app.route('/signout/', signout)
 
-app.post("/login", async (c) => {
-    let body = await c.req.parseBody();
+import login from './login'
+app.route('/login/', login)
 
-    if (typeof body.username !== "string")
-        return c.html(<div>missing username</div>);
-    if (typeof body.password !== "string")
-        return c.html(<div>missing password</div>);
+import profile from './profile'
+app.route('/profile/', profile)
 
-    const user = users.get(body.username);
-    if (!user || user.password !== body.password)
-        return c.html(
-            <div>
-                user <strong>{body.username}</strong> not found
-            </div>
-        );
-
-    return c.redirect("/");
-});
-
-import mail from "./mail/index";
-app.route("/mail/", mail);
-
-import search from "./search";
-app.route("/", search);
 export default app;
