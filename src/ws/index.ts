@@ -8,6 +8,7 @@ const server = Bun.serve<WebSocketData>({
     const cookies = new Bun.CookieMap(req.headers.get("cookie")!);
     const user_id = cookies.get("user")
     if (!user_id) {
+      console.log('unauthorized user')
       return new Response("unauthorized user", { status: 401 });
     }
 
@@ -25,18 +26,22 @@ const server = Bun.serve<WebSocketData>({
     message(ws, message) {
       const user = ws.data.user_id
       console.log(user, message)
-      ws.publish("lobby", `${user}: ${message}`)
+      server.publish("lobby", JSON.stringify({user: user, message}))
+      console.log(server.subscriberCount('lobby'))
     },
     open(ws) {
-      console.log('new connection')
+      const user = ws.data.user_id
+      console.log(server.pendingWebSockets, 'connection open')
       ws.subscribe("lobby")
-      server.publish("lobby", "someone has joined")
+      server.publish("lobby", JSON.stringify({user: 'server', message: `${user} has joined`, count: server.subscriberCount('lobby')}))
     },
     close(ws, code, message) {
-      console.log('close with code', code)
+      const user = ws.data.user_id
+      server.publish("lobby", JSON.stringify({user: 'server', message: `${user} has left`, count: server.subscriberCount('lobby')}))
+      console.log(server.pendingWebSockets, 'connection close with code', code)
     },
     drain(ws) {
-      console.log('drain?')
+      console.log('drain!?')
     },
   },
 });
