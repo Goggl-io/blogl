@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="styles.css">
+<a href="http://localhost:3000">back to main page</a>
+<link rel="stylesheet" href="styles.css" />
 <p id="status">status bar loading...</p>
 <div id="chat">
     <h1>real time shit</h1>
@@ -7,8 +8,11 @@
     <p>11:20 <span>griffin</span> yo whats good</p>
     <p>11:20 <span>abuzar</span> nothing much man whats good</p>
     <form id="form">
-        <input type="text" id="bruh">
-        <input type="submit" value="send">
+        <input type="text" id="bruh" autofocus />
+        <input type="submit" value="send" />
     </form>
 </div>
+<button id="sseClose">close sse</button>
+<button id="sseOpen">open sse</button>
+<p id="sseError"></p>
 <script src="chat.js"></script>

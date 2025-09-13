@@ -3,6 +3,7 @@
 ```
 bun run src/index.ts
 ```
+
 http://localhost:3000
 
 # html thing
