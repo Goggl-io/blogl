@@ -1,18 +1,35 @@
-<a href="http://localhost:3000">back to main page</a>
-<link rel="stylesheet" href="styles.css" />
-<p id="status">status bar loading...</p>
-<div id="chat">
-    <h1>real time shit</h1>
-    <p id="online">online count loading...</p>
-    <p>11:20 <span>abuzar</span> whasts up man</p>
-    <p>11:20 <span>griffin</span> yo whats good</p>
-    <p>11:20 <span>abuzar</span> nothing much man whats good</p>
-    <form id="form">
-        <input type="text" id="bruh" autofocus />
-        <input type="submit" value="send" />
-    </form>
-</div>
-<button id="sseClose">close sse</button>
-<button id="sseOpen">open sse</button>
-<p id="sseError"></p>
-<script src="chat.js"></script>
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/htmx-ext-sse@2.2.2"></script>
+    </head>
+    <body hx-ext="sse">
+        <a href="http://localhost:3000">back to main page</a>
+        <link rel="stylesheet" href="styles.css" />
+        <p id="status">status bar loading...</p>
+        <div id="chat">
+            <h1>real time shit</h1>
+            <p id="online">online count loading...</p>
+            <p>11:20 <span>abuzar</span> whasts up man</p>
+            <p>11:20 <span>griffin</span> yo whats good</p>
+            <p>11:20 <span>abuzar</span> nothing much man whats good</p>
+            <form id="form">
+                <input type="text" id="bruh" autofocus />
+                <input type="submit" value="send" />
+            </form>
+        </div>
+        <div
+            hx-ext="sse"
+            sse-connect="http://localhost:3000/sse"
+            sse-swap="message"
+        >
+            Contents of this box will be updated in real time with every SSE
+            message received from the chatroom.
+        </div>
+        <button id="sseClose">close sse</button>
+        <button id="sseOpen">open sse</button>
+        <p id="sseError"></p>
+        <script src="chat.js"></script>
+    </body>
+</html>

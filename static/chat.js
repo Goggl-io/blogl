@@ -114,7 +114,7 @@ function sse() {
         e.preventDefault();
     });
 }
-sse();
+//sse();
 
 const sseOpen = document.getElementById("sseOpen");
 sseOpen.addEventListener("click", (e) => {
