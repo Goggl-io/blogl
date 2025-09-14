@@ -1,3 +1,10 @@
+if (import.meta.hot) {
+    import.meta.hot.accept(() => {
+        console.log("chat.js hot updated ✅");
+        // You can re-run initialization logic here
+    });
+}
+
 const input = document.getElementById("bruh");
 
 document.getElementById("form").addEventListener("submit", (e) => {
