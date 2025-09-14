@@ -40,6 +40,9 @@ app.get("/sse", async (c) => {
         while (true) {
             if (stream.aborted) {
                 // todo remove from lobby
+                console.warn(
+                    "HEY MR DEVELOPER! YOU THERE! if you get net::ERR_INCOMPLETE_CHUNKED_ENCODING 200 (OK) then its bun --hot (try restarting bun)"
+                );
                 console.log("sse", user, "aborted return");
                 return;
             }
@@ -51,8 +54,17 @@ app.get("/sse", async (c) => {
             }
 
             await stream.writeSSE({
-                data: new Date().toDateString(),
+                data: new Date().toISOString(),
                 event: "heartbeat",
+                id: String(id++),
+            });
+            await stream.writeSSE({
+                data: (
+                    <p>
+                        hi<h1>NO FUCKING WAY</h1>
+                    </p>
+                ),
+                event: "message",
                 id: String(id++),
             });
             await stream.sleep(300);
